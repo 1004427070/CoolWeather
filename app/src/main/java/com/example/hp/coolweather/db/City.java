@@ -9,7 +9,6 @@ public class City extends DataSupport{
     private int cityCode;
     private int provinceId;
 
-
     public int getId() {
         return id;
     }
