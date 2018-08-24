@@ -1,8 +1,7 @@
 package com.example.hp.coolweather.View;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -21,6 +20,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.hp.coolweather.R;
+import com.example.hp.coolweather.service.AutoUpdateService;
 import com.example.hp.coolweather.util.HttpUtil;
 import com.example.hp.coolweather.util.Utility;
 
@@ -228,5 +228,8 @@ public class WeatherActivity extends AppCompatActivity{
         sportText.setText(sport);
         //将填充数据后的ScrollView置为可见状态
         weatherLayout.setVisibility(View.VISIBLE);
+        //在每次更新完天气数据后，自动开启后台更新服务
+        Intent intent = new Intent(this,AutoUpdateService.class);
+        startService(intent);
     }
 }
