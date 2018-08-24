@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hp.coolweather.R;
+import com.example.hp.coolweather.View.MainActivity;
 import com.example.hp.coolweather.View.WeatherActivity;
 import com.example.hp.coolweather.db.City;
 import com.example.hp.coolweather.db.County;
@@ -85,10 +86,21 @@ public class ChooseAreaFragment extends Fragment {
                     queryCounties();
                 }else if(currentLevel==LEVEL_COUNTY){
                     String weatherId = countyList.get(position).getWeatherId();
-                    Intent intent = new Intent(getActivity(), WeatherActivity.class);
-                    intent.putExtra("weather_id",weatherId);
-                    startActivity(intent);
-                    getActivity().finish();
+                    //instanceof对象用于判断一个对象是否属于某个类的实例
+                    if(getActivity() instanceof MainActivity){
+                        Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                        intent.putExtra("weather_id",weatherId);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }else if(getActivity() instanceof WeatherActivity){
+                        //获取调用当前碎片的活动实例
+                        WeatherActivity activity = (WeatherActivity) getActivity();
+                        //关闭滑动菜单、启动刷新1进度条
+                        activity.drawerLayout.closeDrawers();
+                        activity.swipeRefresh.setRefreshing(true);
+                        activity.requestWeather(weatherId);
+                    }
+
                 }
             }
         });
